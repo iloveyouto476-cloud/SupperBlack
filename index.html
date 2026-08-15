@@ -1,0 +1,992 @@
+content://media/external/file/16977<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#f8f9fa">
+<title>SupperBlack</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    width: 100%;
+    min-height: 100%;
+    background: #f8f9fa;
+}
+
+body {
+    margin: 0;
+    width: 100%;
+    min-height: 100vh;
+    background: #f8f9fa;
+    color: #111827;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        "Noto Sans Thai",
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+}
+
+.app {
+    width: 100%;
+    max-width: 448px;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding:
+        env(safe-area-inset-top, 0px)
+        16px
+        40px
+        16px;
+}
+
+.topbar {
+    width: 100%;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 26px;
+}
+
+.top-button {
+    width: 44px;
+    height: 44px;
+    border: 0;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    color: #111111;
+    cursor: pointer;
+}
+
+.top-button svg {
+    width: 30px;
+    height: 30px;
+    display: block;
+}
+
+.menu-button {
+    font-size: 28px;
+    line-height: 1;
+    letter-spacing: 2px;
+}
+
+.brand {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.logo {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 44px;
+    border-radius: 18px;
+    background: #000000;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    line-height: 1;
+    font-weight: 700;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.10);
+}
+
+.title {
+    margin: 0;
+    color: #111827;
+    font-size: 39px;
+    line-height: 1.08;
+    font-weight: 800;
+    letter-spacing: -1.8px;
+}
+
+.subtitle {
+    margin: 12px 0 58px 0;
+    color: #6b7280;
+    font-size: 17px;
+    line-height: 1.4;
+    font-weight: 400;
+}
+
+.search-area {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 58px;
+}
+
+.search-box-wrap {
+    position: relative;
+    width: 100%;
+}
+
+.search-box {
+    width: 100%;
+    height: 62px;
+    padding: 0 54px 0 58px;
+    border: 1px solid #e0e2e5;
+    border-radius: 21px;
+    outline: none;
+    background: #ffffff;
+    color: #111827;
+    font-family: inherit;
+    font-size: 17px;
+    font-weight: 400;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.search-box::placeholder {
+    color: #a0a5ad;
+    opacity: 1;
+}
+
+.search-box:focus {
+    border-color: #bfc3c8;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.035);
+}
+
+.search-icon {
+    position: absolute;
+    left: 28px;
+    top: 50%;
+    width: 27px;
+    height: 27px;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    pointer-events: none;
+}
+
+.search-icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.mic-button {
+    position: absolute;
+    right: 27px;
+    top: 50%;
+    width: 28px;
+    height: 28px;
+    transform: translateY(-50%);
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background: transparent;
+    color: #9ca3af;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.mic-button svg {
+    width: 25px;
+    height: 25px;
+    display: block;
+}
+
+.mic-button:active {
+    color: #111111;
+    transform: translateY(-50%) scale(0.92);
+}
+
+.search-button {
+    width: 100%;
+    height: 62px;
+    border: 0;
+    border-radius: 21px;
+    background: #000000;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 13px;
+    font-family: inherit;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+    transition: transform 0.12s ease, opacity 0.12s ease;
+}
+
+.search-button svg {
+    width: 27px;
+    height: 27px;
+    display: block;
+}
+
+.search-button:active {
+    transform: scale(0.985);
+    opacity: 0.88;
+}
+
+/* Result Area: prepared to receive real Search data later. */
+.result-area {
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    margin-top: -18px;
+    margin-bottom: 48px;
+}
+
+.result-area.visible {
+    display: flex;
+}
+
+.result-header {
+    width: 100%;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.result-heading {
+    margin: 0;
+    color: #111827;
+    font-size: 20px;
+    line-height: 1.3;
+    font-weight: 700;
+}
+
+.result-query {
+    margin: 4px 0 0 0;
+    color: #737982;
+    font-size: 14px;
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 260px;
+}
+
+.result-count {
+    flex-shrink: 0;
+    color: #8a9098;
+    font-size: 13px;
+}
+
+.result-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.result-card {
+    width: 100%;
+    padding: 18px;
+    border: 1px solid #e1e3e6;
+    border-radius: 18px;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.035);
+    transition: transform 0.12s ease, background 0.12s ease;
+}
+
+.result-card:active {
+    transform: scale(0.985);
+    background: #f8f8f8;
+}
+
+.result-card-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+}
+
+.result-icon {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background: #f1f2f4;
+    color: #20242b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.result-icon svg {
+    width: 23px;
+    height: 23px;
+    display: block;
+}
+
+.result-content {
+    min-width: 0;
+    flex: 1;
+}
+
+.result-title {
+    margin: 0 0 5px 0;
+    color: #16191d;
+    font-size: 17px;
+    line-height: 1.35;
+    font-weight: 650;
+}
+
+.result-description {
+    margin: 0;
+    color: #6c737c;
+    font-size: 14px;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.result-source {
+    margin-top: 13px;
+    padding-top: 11px;
+    border-top: 1px solid #eeeeef;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.source-name {
+    min-width: 0;
+    color: #858b93;
+    font-size: 12px;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.source-type {
+    flex-shrink: 0;
+    color: #a0a5ab;
+    font-size: 11px;
+}
+
+.result-loading,
+.result-empty,
+.result-error {
+    width: 100%;
+    border: 1px solid #e1e3e6;
+    border-radius: 18px;
+    background: #ffffff;
+}
+
+.result-loading {
+    padding: 22px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.result-loading.visible {
+    display: flex;
+}
+
+.loading-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #111111;
+    animation: loadingPulse 0.9s infinite alternate;
+}
+
+@keyframes loadingPulse {
+    from {
+        opacity: 0.25;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.result-empty {
+    padding: 28px 20px;
+    display: none;
+    text-align: center;
+}
+
+.result-empty.visible {
+    display: block;
+}
+
+.empty-title,
+.error-title {
+    margin: 0 0 6px 0;
+    color: #30343a;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.empty-text,
+.error-text {
+    margin: 0;
+    color: #858b93;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.result-error {
+    padding: 20px;
+    display: none;
+    text-align: center;
+}
+
+.result-error.visible {
+    display: block;
+}
+
+.shortcuts {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.shortcut {
+    width: 100%;
+    height: 78px;
+    padding: 0 36px;
+    border: 1px solid #e0e2e5;
+    border-radius: 22px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+    transition: transform 0.12s ease, background 0.12s ease;
+}
+
+.shortcut:active {
+    transform: scale(0.985);
+    background: #f7f7f7;
+}
+
+.shortcut-icon {
+    width: 54px;
+    height: 54px;
+    margin-right: 25px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.shortcut-icon svg {
+    width: 30px;
+    height: 30px;
+    display: block;
+}
+
+.youtube-icon {
+    background: #fff2f3;
+    color: #e52d2d;
+}
+
+.music-icon {
+    background: transparent;
+    color: #9239d7;
+}
+
+.website-icon {
+    background: #edf4ff;
+    color: #2866d5;
+}
+
+.shortcut-text {
+    color: #20242b;
+    font-size: 23px;
+    line-height: 1;
+    font-weight: 400;
+}
+
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    transform: translate(-50%, 20px);
+    max-width: calc(100vw - 40px);
+    padding: 12px 18px;
+    border-radius: 14px;
+    background: #111111;
+    color: #ffffff;
+    font-size: 14px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 1000;
+    text-align: center;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+@media (max-width: 360px) {
+    .app {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .logo {
+        width: 74px;
+        height: 74px;
+        margin-bottom: 36px;
+    }
+
+    .title {
+        font-size: 34px;
+    }
+
+    .subtitle {
+        margin-bottom: 46px;
+    }
+
+    .shortcut {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    .shortcut-icon {
+        margin-right: 20px;
+    }
+
+    .shortcut-text {
+        font-size: 21px;
+    }
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+    <div class="topbar">
+        <button class="top-button" id="backButton" aria-label="ย้อนกลับ">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 18l-6-6 6-6"></path>
+            </svg>
+        </button>
+
+        <button class="top-button menu-button" id="menuButton" aria-label="เมนู">•••</button>
+    </div>
+
+    <section class="brand">
+        <div class="logo">SB</div>
+        <h1 class="title">SupperBlack</h1>
+        <p class="subtitle">ค้นหาสิ่งที่อยากรู้</p>
+    </section>
+
+    <section class="search-area">
+        <div class="search-box-wrap">
+            <div class="search-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <path d="M16.2 16.2L21 21"></path>
+                </svg>
+            </div>
+
+            <input
+                id="searchInput"
+                class="search-box"
+                type="search"
+                placeholder="ค้นหาสิ่งที่อยากรู้..."
+                autocomplete="off"
+                enterkeyhint="search"
+            >
+
+            <button id="micButton" class="mic-button" aria-label="ค้นหาด้วยเสียง">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="3" width="6" height="11" rx="3"></rect>
+                    <path d="M5 11a7 7 0 0 0 14 0"></path>
+                    <path d="M12 18v3"></path>
+                    <path d="M8 21h8"></path>
+                </svg>
+            </button>
+        </div>
+
+        <button id="searchButton" class="search-button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="7"></circle>
+                <path d="M16.2 16.2L21 21"></path>
+            </svg>
+            <span>ค้นหา</span>
+        </button>
+    </section>
+
+    <section id="resultArea" class="result-area" aria-live="polite">
+        <div class="result-header">
+            <div>
+                <h2 class="result-heading">ผลการค้นหา</h2>
+                <p id="resultQuery" class="result-query"></p>
+            </div>
+            <span id="resultCount" class="result-count"></span>
+        </div>
+
+        <div id="resultLoading" class="result-loading">
+            <span class="loading-dot"></span>
+            <span>กำลังค้นหา...</span>
+        </div>
+
+        <div id="resultList" class="result-list"></div>
+
+        <div id="resultEmpty" class="result-empty">
+            <h3 class="empty-title">ไม่พบผลการค้นหา</h3>
+            <p class="empty-text">ลองเปลี่ยนคำค้นหาแล้วค้นหาอีกครั้ง</p>
+        </div>
+
+        <div id="resultError" class="result-error">
+            <h3 class="error-title">เกิดข้อผิดพลาด</h3>
+            <p class="error-text">ไม่สามารถแสดงผลการค้นหาได้</p>
+        </div>
+    </section>
+
+    <section class="shortcuts">
+        <button class="shortcut" id="youtubeButton">
+            <div class="shortcut-icon youtube-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8Z"></path>
+                    <path d="M9.6 15.5 15.8 12 9.6 8.5v7Z" fill="#ffffff"></path>
+                </svg>
+            </div>
+            <span class="shortcut-text">YouTube</span>
+        </button>
+
+        <button class="shortcut" id="musicButton">
+            <div class="shortcut-icon music-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18V5l11-2v13"></path>
+                    <circle cx="6" cy="18" r="3"></circle>
+                    <circle cx="17" cy="16" r="3"></circle>
+                </svg>
+            </div>
+            <span class="shortcut-text">เพลง</span>
+        </button>
+
+        <button class="shortcut" id="websiteButton">
+            <div class="shortcut-icon website-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <path d="M3 12h18"></path>
+                    <path d="M12 3c2.2 2.5 3.3 5.5 3.3 9s-1.1 6.5-3.3 9c-2.2-2.5-3.3-5.5-3.3-9S9.8 5.5 12 3Z"></path>
+                </svg>
+            </div>
+            <span class="shortcut-text">เว็บไซต์</span>
+        </button>
+    </section>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+/*
+  SUPPERBLACK WEB V1
+  STEP 1 ONLY
+
+  Result Area is prepared to receive real Search data later.
+  No Backend, Supabase, API, or Research Pipeline is connected here.
+*/
+
+const searchInput = document.getElementById("searchInput");
+const searchButton = document.getElementById("searchButton");
+const micButton = document.getElementById("micButton");
+const youtubeButton = document.getElementById("youtubeButton");
+const musicButton = document.getElementById("musicButton");
+const websiteButton = document.getElementById("websiteButton");
+const backButton = document.getElementById("backButton");
+const menuButton = document.getElementById("menuButton");
+const toast = document.getElementById("toast");
+
+const resultArea = document.getElementById("resultArea");
+const resultQuery = document.getElementById("resultQuery");
+const resultCount = document.getElementById("resultCount");
+const resultList = document.getElementById("resultList");
+const resultLoading = document.getElementById("resultLoading");
+const resultEmpty = document.getElementById("resultEmpty");
+const resultError = document.getElementById("resultError");
+
+/*
+  Result Data Contract
+  จุดรับข้อมูลจริงในอนาคต
+*/
+function createResultItem(data = {}) {
+    return {
+        id: data.id || "",
+        title: data.title || "",
+        description: data.description || "",
+        source: data.source || "",
+        url: data.url || "",
+        type: data.type || "webpage",
+        image: data.image || "",
+        content: data.content || "",
+        relevance: typeof data.relevance === "number" ? data.relevance : null
+    };
+}
+
+function createSearchResponse(data = {}) {
+    const results = Array.isArray(data.results)
+        ? data.results.map(createResultItem)
+        : [];
+
+    return {
+        query: data.query || "",
+        status: data.status || "success",
+        total: results.length,
+        results,
+        error: data.error || null,
+        elapsedMs: typeof data.elapsedMs === "number" ? data.elapsedMs : null
+    };
+}
+
+/*
+  Test Data
+  ใช้เฉพาะตรวจ Result Area ใน STEP 1
+*/
+const TEST_SEARCH_RESULTS = [
+    {
+        id: "test-001",
+        title: "ตัวอย่างผลการค้นหา SupPerBlack",
+        description: "นี่คือผลการค้นหาทดสอบสำหรับตรวจสอบว่า Result Area สามารถรับข้อมูลและแสดงผลบน Acode ได้ถูกต้อง",
+        source: "SupPerBlack Test",
+        url: "",
+        type: "webpage",
+        image: "",
+        content: "ข้อมูลรายละเอียดตัวอย่างสำหรับการทดสอบในขั้นตอน Web V1",
+        relevance: 1.0
+    },
+    {
+        id: "test-002",
+        title: "ตัวอย่างผลการค้นหาเพิ่มเติม",
+        description: "ผลลัพธ์รายการที่สอง ใช้สำหรับตรวจสอบว่าระบบสามารถแสดงหลายรายการได้",
+        source: "SupPerBlack Test",
+        url: "",
+        type: "article",
+        image: "",
+        content: "ข้อมูลเพิ่มเติมของผลลัพธ์รายการที่สอง",
+        relevance: 0.8
+    }
+];
+
+let toastTimer = null;
+
+function showToast(message) {
+    toast.textContent = message;
+    toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+    }, 1800);
+}
+
+function hideAllResultStates() {
+    resultLoading.classList.remove("visible");
+    resultEmpty.classList.remove("visible");
+    resultError.classList.remove("visible");
+}
+
+function showResultArea() {
+    resultArea.classList.add("visible");
+}
+
+function getResultIcon() {
+    return `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M3 12h18"></path>
+            <path d="M12 3c2.2 2.5 3.3 5.5 3.3 9s-1.1 6.5-3.3 9c-2.2-2.5-3.3-9-3.3-9S9.8 5.5 12 3Z"></path>
+        </svg>
+    `;
+}
+
+function renderResultCard(result) {
+    const card = document.createElement("article");
+    card.className = "result-card";
+    card.dataset.resultId = result.id;
+
+    card.innerHTML = `
+        <div class="result-card-top">
+            <div class="result-icon">${getResultIcon()}</div>
+            <div class="result-content">
+                <h3 class="result-title">${escapeHTML(result.title)}</h3>
+                <p class="result-description">${escapeHTML(result.description)}</p>
+            </div>
+        </div>
+        <div class="result-source">
+            <span class="source-name">${escapeHTML(result.source)}</span>
+            <span class="source-type">${escapeHTML(result.type)}</span>
+        </div>
+    `;
+
+    return card;
+}
+
+function renderResults(response) {
+    resultList.innerHTML = "";
+    hideAllResultStates();
+    showResultArea();
+
+    resultQuery.textContent = response.query
+        ? `ค้นหา: ${response.query}`
+        : "";
+
+    if (response.status === "error") {
+        resultError.classList.add("visible");
+        resultCount.textContent = "";
+        return;
+    }
+
+    if (!response.results.length) {
+        resultEmpty.classList.add("visible");
+        resultCount.textContent = "0 รายการ";
+        return;
+    }
+
+    resultCount.textContent = `${response.results.length} รายการ`;
+
+    response.results.forEach(result => {
+        resultList.appendChild(renderResultCard(result));
+    });
+}
+
+async function search(query) {
+    showResultArea();
+    hideAllResultStates();
+    resultList.innerHTML = "";
+    resultQuery.textContent = `ค้นหา: ${query}`;
+    resultCount.textContent = "";
+    resultLoading.classList.add("visible");
+
+    await wait(500);
+
+    renderResults(createSearchResponse({
+        query,
+        status: "success",
+        results: TEST_SEARCH_RESULTS,
+        elapsedMs: 500
+    }));
+}
+
+async function performSearch() {
+    const query = searchInput.value.trim();
+
+    if (!query) {
+        searchInput.focus();
+        showToast("กรุณาพิมพ์สิ่งที่ต้องการค้นหา");
+        return;
+    }
+
+    await search(query);
+}
+
+searchInput.addEventListener("keydown", event => {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        performSearch();
+    }
+});
+
+searchButton.addEventListener("click", performSearch);
+
+function escapeHTML(value) {
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+micButton.addEventListener("click", () => {
+    const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+        showToast("เบราว์เซอร์นี้ยังไม่รองรับเสียง");
+        return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = "th-TH";
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onstart = () => showToast("กำลังฟัง...");
+
+    recognition.onresult = event => {
+        searchInput.value = event.results[0][0].transcript;
+        showToast("รับเสียงแล้ว");
+    };
+
+    recognition.onerror = () => {
+        showToast("ไม่สามารถรับเสียงได้");
+    };
+
+    recognition.start();
+});
+
+youtubeButton.addEventListener("click", () => {
+    window.open("https://www.youtube.com/", "_blank");
+});
+
+musicButton.addEventListener("click", () => {
+    showToast("ระบบเพลงยังอยู่ระหว่างพัฒนา");
+});
+
+websiteButton.addEventListener("click", () => {
+    showToast("ระบบเว็บไซต์ยังอยู่ระหว่างพัฒนา");
+});
+
+backButton.addEventListener("click", () => {
+    if (window.history.length > 1) {
+        window.history.back();
+    } else {
+        showToast("ไม่มีหน้าก่อนหน้า");
+    }
+});
+
+menuButton.addEventListener("click", () => {
+    showToast("เมนูยังอยู่ระหว่างพัฒนา");
+});
+</script>
+</body>
+</html>
