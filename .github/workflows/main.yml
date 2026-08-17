@@ -1,0 +1,63 @@
+name: Build SupperBlack A0 APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract A0 APK Project
+        run: |
+          mkdir -p a0
+          unzip -q SupperBlack_A0_APK_Project.zip -d a0
+
+      - name: Show extracted structure
+        run: |
+          echo "===== A0 PROJECT STRUCTURE ====="
+          find a0 -maxdepth 5 -type f | sort
+          echo "===== GRADLE FILES ====="
+          find a0 -type f \( \
+            -name "gradlew" -o \
+            -name "settings.gradle" -o \
+            -name "settings.gradle.kts" -o \
+            -name "build.gradle" -o \
+            -name "build.gradle.kts" \
+          \) | sort
+
+      - name: Find Gradle project
+        id: project
+        run: |
+          GRADLEW=$(find a0 -type f -name "gradlew" | head -n 1)
+
+          if [ -z "$GRADLEW" ]; then
+            echo "ERROR: gradlew was not found in A0 project."
+            exit 1
+          fi
+
+          PROJECT_DIR=$(dirname "$GRADLEW")
+
+          echo "PROJECT_DIR=$PROJECT_DIR"
+          echo "project_dir=$PROJECT_DIR" >> "$GITHUB_OUTPUT"
+
+      - name: Build APK
+        working-directory: ${{ steps.project.outputs.project_dir }}
+        run: |
+          chmod +x ./gradlew
+          ./gradlew assembleDebug --stacktrace
+
+      - name: Find APK
+        run: |
+          echo "===== APK FILES ====="
+          find a0 -type f -name "*.apk" -print
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: SupperBlack-A0-debug-APK
+          path: a0/**/*.apk
+          if-no-files-found: error
